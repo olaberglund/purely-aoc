@@ -1,28 +1,54 @@
+{-# LANGUAGE NamedFieldPuns #-}
+
 module Day4 where
 
-import Data.Char (isDigit)
+import Data.Char (isDigit, isSpace)
 import Text.ParserCombinators.ReadP
 
-{-
+type Board = [[String]]
 
-<file> := <line>*
-<line> := <drawn> | <boardRow>
-  -}
+data Bingo = Bingo {draws :: [String], boards :: [Board]}
+
+parseWith :: ReadP a -> String -> Maybe a
+parseWith p s = case [a | (a, rest) <- parse p s, all isSpace rest] of
+  [a] -> Just a
+  _failed -> Nothing
 
 parse :: ReadP a -> ReadS a
 parse = readP_to_S
 
-numbers :: String
-numbers = "1,2,3,4,5,6,7"
+bingoP :: ReadP Bingo
+bingoP = do
+  draws <- drawsP
+  boards <- boardsP
+  return $ Bingo {draws, boards}
 
-row :: String
-row = "1 2 3 4 5 6 7"
+drawsP :: ReadP [String]
+drawsP = line ','
 
-drawn :: ReadP [String]
-drawn = sepBy number (char ',')
+boardRowP :: ReadP [String]
+boardRowP = line ' '
 
-boardRow :: ReadP [String]
-boardRow = sepBy number (char ' ')
+line :: Char -> ReadP [String]
+line c = sepBy number (char c) <* string "\n"
+
+boardsP :: ReadP [Board]
+boardsP = undefined
+
+boardP :: ReadP Board
+boardP = many boardRowP
+
+board :: String
+board = "6 34 13 5 9\n50 21 66 77 3\n60 74 40 12 33\n69 57 99 18 95\n70 72 49 71 87\n"
 
 number :: ReadP String
-number = munch1 isDigit
+number = munch isDigit
+
+test1 :: String
+test1 = "1,2,3,4,5,6,7\n"
+
+test2 :: String
+test2 = "1 2 3 4 5 6 7\n"
+
+test12 :: [Char]
+test12 = test1 ++ test2
