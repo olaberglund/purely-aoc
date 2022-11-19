@@ -1,61 +1,43 @@
-{-# LANGUAGE NamedFieldPuns #-}
-
 module Day4 where
 
-import Data.Char (isDigit, isSpace)
+import Data.List
+import Parsing
 import Text.ParserCombinators.ReadP
-import Control.Applicative ((<|>))
 
-type Board = [[String]]
+type Board = [[Int]]
 
-data Bingo = Bingo {draws :: [String], boards :: [Board]} deriving Show
+data Bingo = Bingo [Int] [Board] deriving (Show)
 
-parseWith :: ReadP a -> String -> Maybe a
-parseWith p s = case [a | (a, rest) <- parse p s, all isSpace rest] of
-  [a] -> Just a
-  _failed -> Nothing
+solve :: String -> String
+solve s = case parseWith bingoP s of
+  Nothing -> "fail"
+  Just (Bingo draws boards) -> show $ sum unmarks * lst
+    where
+      (lst : unmarks) = play draws boards
 
-solve :: String -> Maybe Bingo
-solve = parseWith bingoP
+play :: [Int] -> [Board] -> [Int]
+play = play' []
+  where
+    play' :: [Int] -> [Int] -> [Board] -> [Int]
+    play' _ [] _ = []
+    play' drawn (d : left) bs =
+      let drawn' = drawn ++ [d]
+       in case winningBoard drawn' bs of
+            Just b -> d : unmarked drawn' b
+            Nothing -> play' drawn' left bs
 
-parse :: ReadP a -> ReadS a
-parse = readP_to_S
+winningBoard :: [Int] -> [Board] -> Maybe Board
+winningBoard = find . isWin
 
 bingoP :: ReadP Bingo
-bingoP = do
-  draws <- drawsP
-  boards <- boardsP
-  return $ Bingo {draws, boards}
+bingoP = Bingo <$> rowP ',' <*> (newline *> many (rowP ' ') `sepBy` newline)
 
-newline :: ReadP String
-newline = string "\n"
+isWin :: [Int] -> Board -> Bool
+isWin ds b = any (`contains` ds) (transpose b `union` b)
 
-drawsP :: ReadP [String]
-drawsP = line ','
+contains :: Eq a => [a] -> [a] -> Bool
+contains [] _ = True
+contains (x : xs) y = elem x y && contains xs y
 
-boardRowP :: ReadP [String]
-boardRowP = line ' '
-
-line :: Char -> ReadP [String]
-line c = sepBy number (char c) <* string "\n"
-
-boardsP :: ReadP [Board]
-boardsP = many boardP 
-
-boardP :: ReadP Board
-boardP = string "\n" *> many boardRowP
-
-nbrs :: [Char]
-nbrs = "93,18,74,26,98,2,94,23,15\n"
-
-b :: String
-b = "\n1 2 3 4 5\n1 2 3 4 5\n"
-
-bs :: String
-bs = "\n1 2 3 4 5\n1 2 3 4 5\n\n1 2 3 4 5\n1 2 3 4 5\n"
-
-full :: String
-full = "1,2,3,4,5,6\n\n17  8 90 62 17\n98 88 49 41 74\n66  9 83 69 91\n33 57  3 71 43\n11 50  7 10 28\n\n6 34 13  5  9\n" -- \n50 21 66 77  3\n60 74 40 12 33\n69 57 99 18 95\n70 72 49 71 87\n"
-
-number :: ReadP String
-number = optional (char ' ') *> munch1 isDigit
+unmarked :: [Int] -> Board -> [Int]
+unmarked = foldMap . flip (\\)
