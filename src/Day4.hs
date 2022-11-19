@@ -1,6 +1,10 @@
+{-# LANGUAGE TupleSections #-}
+{-# OPTIONS_GHC -Wno-compat-unqualified-imports #-}
+
 module Day4 where
 
 import Data.List
+import Debug.Trace (trace)
 import Parsing
 import Text.ParserCombinators.ReadP
 
@@ -13,21 +17,10 @@ solve s = case parseWith bingoP s of
   Nothing -> "fail"
   Just (Bingo draws boards) -> show $ sum unmarks * lst
     where
-      (lst : unmarks) = play draws boards
+      (lst : unmarks) = playA draws boards
 
-play :: [Int] -> [Board] -> [Int]
-play = play' []
-  where
-    play' :: [Int] -> [Int] -> [Board] -> [Int]
-    play' _ [] _ = []
-    play' drawn (d : left) bs =
-      let drawn' = drawn ++ [d]
-       in case winningBoard drawn' bs of
-            Just b -> d : unmarked drawn' b
-            Nothing -> play' drawn' left bs
-
-winningBoard :: [Int] -> [Board] -> Maybe Board
-winningBoard = find . isWin
+winningBoards :: [Int] -> [Board] -> [Board]
+winningBoards ds = filter (isWin ds)
 
 bingoP :: ReadP Bingo
 bingoP = Bingo <$> rowP ',' <*> (newline *> many (rowP ' ') `sepBy` newline)
@@ -41,3 +34,17 @@ contains (x : xs) y = elem x y && contains xs y
 
 unmarked :: [Int] -> Board -> [Int]
 unmarked = foldMap . flip (\\)
+
+playA :: [Int] -> [Board] -> [Int]
+playA ds bs = last $ play [] [] ds bs
+
+playB :: [Int] -> [Board] -> [Int]
+playB ds bs = head $ play [] [] ds bs
+
+play :: [Int] -> [(Board, [Int])] -> [Int] -> [Board] -> [[Int]]
+play _ winners [] _ = map (\p -> head (snd p) : unmarked (snd p) (fst p)) winners
+play drawn winners (d : left) boards =
+  let drawn' = d : drawn
+   in case winningBoards drawn' boards of
+        [] -> play drawn' winners left boards
+        newWinners -> play drawn' (map (,drawn') newWinners ++ winners) left (boards \\ newWinners)
