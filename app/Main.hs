@@ -1,6 +1,6 @@
 module Main (main) where
 
-import Day6
+import Day9
 
 main :: IO ()
 main = interact solve
