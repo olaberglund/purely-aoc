@@ -1,4 +1,4 @@
-module Day2 (solve) where
+module AOC21.Day2 (solve) where
 
 -- Note to self: Look into ReadP for the next days' problems
 

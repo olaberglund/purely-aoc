@@ -25,16 +25,17 @@ source-repository head
 
 library
   exposed-modules:
-      Day1
-      Day2
-      Day3
-      Day4
-      Day5
-      Day6
-      Day7
-      Day8
-      Day9
-      Parsing
+      AOC21.Day1
+      AOC21.Day2
+      AOC21.Day3
+      AOC21.Day4
+      AOC21.Day5
+      AOC21.Day6
+      AOC21.Day7
+      AOC21.Day8
+      AOC21.Day9
+      AOC21.Parsing
+      AOC22.Day1
   other-modules:
       Paths_purely_aoc
   hs-source-dirs:

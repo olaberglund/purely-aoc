@@ -1,8 +1,7 @@
-module Day6 where
+module AOC21.Day6 where
 
 import Data.List.Split
-import Data.MultiSet (MultiSet, size, fromList, concatMap)
-
+import Data.MultiSet (MultiSet, concatMap, fromList, size)
 
 updateFish :: Int -> [Int]
 updateFish i = if i < 1 then [6, 8] else [i - 1]
@@ -32,5 +31,3 @@ solveA' = show . size . (!! 80) . iterate simulate . readInput
 
 solveB :: String -> String
 solveB = show . size . (!! 256) . iterate simulate . readInput
-
-

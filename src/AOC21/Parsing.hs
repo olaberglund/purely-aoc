@@ -1,6 +1,6 @@
 {-# OPTIONS_GHC -Wno-missing-export-lists #-}
 
-module Parsing where
+module AOC21.Parsing where
 
 import Data.Char (isSpace)
 import GHC.Unicode (isDigit)

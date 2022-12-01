@@ -1,4 +1,4 @@
-module Day8 where
+module AOC21.Day8 where
 
 import Data.Foldable (foldl')
 import Data.List.Split (splitWhen)

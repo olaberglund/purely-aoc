@@ -1,11 +1,11 @@
 {-# LANGUAGE TupleSections #-}
 {-# OPTIONS_GHC -Wno-compat-unqualified-imports #-}
 
-module Day4 where
+module AOC21.Day4 where
 
+import AOC21.Parsing
 import Data.List
 import Debug.Trace (trace)
-import Parsing
 import Text.ParserCombinators.ReadP
 
 type Board = [[Int]]

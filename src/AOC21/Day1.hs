@@ -1,4 +1,4 @@
-module Day1 (solve) where
+module AOC21.Day1 (solve) where
 
 parse :: String -> [Int]
 parse = map read . words

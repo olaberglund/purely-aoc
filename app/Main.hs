@@ -1,6 +1,6 @@
 module Main (main) where
 
-import Day9
+import AOC22.Day1 (solve)
 
 main :: IO ()
 main = interact solve

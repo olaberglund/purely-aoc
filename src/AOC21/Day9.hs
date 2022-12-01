@@ -1,4 +1,4 @@
-module Day9 where
+module AOC21.Day9 where
 
 import Data.Char (digitToInt)
 import Data.Containers.ListUtils (nubOrd)
@@ -15,18 +15,18 @@ type Matrix a = Map.Map Pos a
 
 type Pos = (Int, Int)
 
-solve :: String -> String
-solve = solveB
+-- solve :: String -> String
+-- solve = solveB
 
 solveA :: String -> String
 solveA s = show $ foldl' (\acc p -> acc + fromMaybe 0 (Map.lookup p matrix) + 1) 0 (lowpoints matrix)
   where
     matrix = mkMatrix s
 
-solveB :: String -> String
-solveB s = show $ product $ take 3 $ sortBy (flip compare) $ map (basin matrix) (lowpoints (mkMatrix s))
-  where
-    matrix = mkMatrix s
+-- solveB :: String -> String
+-- solveB s = show $ product $ take 3 $ sortBy (flip compare) $ map (basin matrix) (lowpoints (mkMatrix s))
+--   where
+--     matrix = mkMatrix s
 
 lowpoints :: Matrix Int -> [Pos]
 lowpoints m = [lp | lp <- coordinates, isLowPoint m lp]
@@ -52,15 +52,15 @@ surroundings m (x, y) =
     ]
 
 -- given a low point, find levels in basin
-basin :: Matrix Int -> Pos -> Int
-basin = basin' Set.empty
-  where
-    basin' :: Set.Set Pos -> Matrix Int -> Pos -> Int
-    basin' visited m p
-      | Map.lookup p m == Just 9 = 0
-      | isNothing (Map.lookup p m) = 0
-      | Set.member p visited = 0
-      | otherwise = 1 + Set.size $ foldl (\acc pos -> Set.insert acc basin' (Set.insert p s) m) Set.empty (surroundings' p)
+-- basin :: Matrix Int -> Pos -> Int
+-- basin = basin' Set.empty
+--   where
+--     basin' :: Set.Set Pos -> Matrix Int -> Pos -> Int
+--     basin' visited m p
+--       | Map.lookup p m == Just 9 = 0
+--       | isNothing (Map.lookup p m) = 0
+--       | Set.member p visited = 0
+--       | otherwise = 1 + Set.size $ foldl (\acc pos -> Set.insert acc basin' (Set.insert p s) m) Set.empty (surroundings' p)
 
 surroundings' :: Pos -> [Pos]
 surroundings' (x, y) =

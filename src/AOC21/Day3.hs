@@ -1,4 +1,4 @@
-module Day3 (solve) where
+module AOC21.Day3 (solve) where
 
 import Data.Char (digitToInt)
 import Data.Foldable (foldl')

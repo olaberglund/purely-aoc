@@ -1,7 +1,7 @@
-module Day7 where
+module AOC21.Day7 where
 
-import Data.List.Split (splitOn)
 import Data.List (sort)
+import Data.List.Split (splitOn)
 
 solve :: String -> String
 solve = show . solveB . map read . splitOn ","
@@ -16,7 +16,7 @@ totCost :: Int -> [Int] -> Int
 totCost h = cost (diff h) h
 
 incCost :: Int -> [Int] -> Int
-incCost h = cost (arithmSum . diff h) h 
+incCost h = cost (arithmSum . diff h) h
 
 arithmSum :: Int -> Int
 arithmSum n = n * (n + 1) `div` 2
@@ -32,4 +32,3 @@ solveB = incCost . mean <*> id
 
 mean :: [Int] -> Int
 mean = div . sum <*> length
-
