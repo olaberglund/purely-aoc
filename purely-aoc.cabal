@@ -36,6 +36,7 @@ library
       AOC21.Day9
       AOC21.Parsing
       AOC22.Day1
+      AOC22.Day2
   other-modules:
       Paths_purely_aoc
   hs-source-dirs:
