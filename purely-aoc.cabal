@@ -38,6 +38,7 @@ library
       AOC22.Day1
       AOC22.Day2
       AOC22.Day3
+      AOC22.Day4
   other-modules:
       Paths_purely_aoc
   hs-source-dirs:
