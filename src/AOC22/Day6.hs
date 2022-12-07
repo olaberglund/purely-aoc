@@ -1,13 +1,10 @@
 module AOC22.Day6 where
 
 import Data.Containers.ListUtils (nubOrd)
+import Utils (sliding)
 
 solve :: String -> String
 solve = show . marker . sliding 14
-
-sliding :: Int -> String -> [String]
-sliding _ [] = []
-sliding n s = take n s : sliding n (drop 1 s)
 
 marker :: [String] -> Int
 marker [] = 0

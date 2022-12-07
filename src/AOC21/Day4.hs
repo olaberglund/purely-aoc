@@ -5,8 +5,8 @@ module AOC21.Day4 where
 
 import AOC21.Parsing
 import Data.List
-import Debug.Trace (trace)
 import Text.ParserCombinators.ReadP
+import Utils
 
 type Board = [[Int]]
 

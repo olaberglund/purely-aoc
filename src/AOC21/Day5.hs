@@ -1,11 +1,12 @@
 module AOC21.Day5 where
 
-import AOC21.Parsing (newline, parseWith)
+import AOC21.Parsing (newline)
 import Data.Char (isDigit)
 import Data.Containers.ListUtils (nubOrd)
 import Data.List (nub)
 import Data.Map as Map hiding (foldr, map)
 import Text.ParserCombinators.ReadP
+import Utils (parseWith)
 
 type Coordinate = (Int, Int)
 

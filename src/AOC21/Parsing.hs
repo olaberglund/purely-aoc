@@ -6,11 +6,6 @@ import Data.Char (isSpace)
 import GHC.Unicode (isDigit)
 import Text.ParserCombinators.ReadP
 
-parseWith :: ReadP a -> String -> Maybe a
-parseWith p s = case [a | (a, rest) <- readP_to_S p s, all isSpace rest] of
-  [a] -> Just a
-  _failed -> Nothing
-
 newline :: ReadP String
 newline = string "\n"
 
