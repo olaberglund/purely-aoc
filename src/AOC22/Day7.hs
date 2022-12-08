@@ -20,11 +20,8 @@ data File = Single Path !Int | Dir Path deriving (Show)
 data State = State {wd :: Path, fs :: FileSystem}
 
 solve :: String -> String
-solve s = show $ solveB dirs
+solve s = show $ solveB $ Map.elems fsys
   where
-    dirs :: [[File]]
-    dirs = Map.elems fsys
-
     fsys :: FileSystem
     fsys = fs $ mkState s
 

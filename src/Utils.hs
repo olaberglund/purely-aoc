@@ -11,3 +11,8 @@ parseWith p s = case [a | (a, rest) <- readP_to_S p s, all isSpace rest] of
 sliding :: Int -> String -> [String]
 sliding _ [] = []
 sliding n s = take n s : sliding n (drop 1 s)
+
+range :: Int -> Int -> [Int]
+range i1 i2
+  | i1 < i2 = [i1 .. i2]
+  | otherwise = reverse [i2 .. i1]

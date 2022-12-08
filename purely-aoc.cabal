@@ -42,6 +42,7 @@ library
       AOC22.Day5
       AOC22.Day6
       AOC22.Day7
+      AOC22.Day8
       Utils
   other-modules:
       Paths_purely_aoc
