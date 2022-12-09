@@ -16,3 +16,12 @@ range :: Int -> Int -> [Int]
 range i1 i2
   | i1 < i2 = [i1 .. i2]
   | otherwise = reverse [i2 .. i1]
+
+safeHead :: [a] -> Maybe a
+safeHead [] = Nothing
+safeHead xs = Just $ head xs
+
+takeWhileInclusive :: (a -> Bool) -> [a] -> [a]
+takeWhileInclusive _ [] = []
+takeWhileInclusive p (x : xs) = x : if p x then takeWhileInclusive p xs else []
+

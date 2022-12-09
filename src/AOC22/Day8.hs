@@ -5,7 +5,7 @@ module AOC22.Day8 where
 import Data.Char (digitToInt)
 import Data.List
 import qualified Data.Map as Map
-import Utils (range)
+import Utils (range, takeWhileInclusive)
 
 type Tree = Int
 
@@ -39,7 +39,7 @@ trees :: Forest -> Pos -> Dir -> [Maybe Tree]
 trees for p dir = takeWhile (/= Nothing) $ map (`Map.lookup` for) (line p dir)
 
 treeScore :: Forest -> Pos -> Int
-treeScore for pos = product $ map (length . takeWhile (< Map.lookup pos for) . trees for pos) [U, D, L, R]
+treeScore for pos = product $ map (length . takeWhileInclusive (< Map.lookup pos for) . trees for pos) [U, D, L, R]
 
 line :: Pos -> Dir -> [Pos]
 line (x, y) = \case
