@@ -3,6 +3,8 @@ module Utils where
 import Data.Char (isSpace)
 import Text.ParserCombinators.ReadP (ReadP, readP_to_S)
 
+type Pos = (Int, Int)
+
 parseWith :: ReadP a -> String -> Maybe a
 parseWith p s = case [a | (a, rest) <- readP_to_S p s, all isSpace rest] of
   [a] -> Just a
@@ -25,3 +27,4 @@ takeWhileInclusive :: (a -> Bool) -> [a] -> [a]
 takeWhileInclusive _ [] = []
 takeWhileInclusive p (x : xs) = x : if p x then takeWhileInclusive p xs else []
 
+data Dir = U | D | R | L
