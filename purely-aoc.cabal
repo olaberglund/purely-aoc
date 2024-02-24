@@ -71,6 +71,8 @@ executable purely-aoc
                     , split
                     , vector
                     , vector-split
+                    , extra
+                    , bifunctors
 
     -- Directories containing source files.
     hs-source-dirs:   app
